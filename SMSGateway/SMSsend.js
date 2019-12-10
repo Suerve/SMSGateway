@@ -15,7 +15,7 @@ exports.handler = function (event, context, callback) {
         MessageAttributes: {
             'AWS.SNS.SMS.SMSType': {
                 DataType: "String",
-                StringValue: "Promotional"
+                StringValue: "Transactional"
             },
             'AWS.SNS.SMS.SenderID': {
                 DataType: "String",
@@ -24,10 +24,11 @@ exports.handler = function (event, context, callback) {
         }
     }).promise()
         .then(data => {
-        console.log("send message to", receiver);
-        callback(null, "Successfully sent");
-})
-.catch(err => {	
-console.log("Sending failed", err);
-callback(err);}
-);
+            console.log("send message to", receiver);
+            callback(null, "Successfully sent");
+        })
+        .catch(err => {
+            console.log("Sending failed", err);
+            callback(err)
+        });   
+}

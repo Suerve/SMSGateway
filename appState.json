@@ -22,7 +22,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "SMSGateway/SMSsend.js",
-        "code": "let AWS = require('aws-sdk');\nconst sns = new AWS.SNS();\n\nexports.handler = function (event, context, callback) {\n\n    let receiver = event['receiver'];\n    let sender = event['sender'];\n    let message = event['message'];\n\n    console.log(\"Sending message\", message, \"to receiver\", receiver);\n\n    sns.publish({\n        Message: message,\n        PhoneNumber: receiver,\n        MessageAttributes: {\n            'AWS.SNS.SMS.SMSType': {\n                DataType: \"String\",\n                StringValue: \"Promotional\"\n            },\n            'AWS.SNS.SMS.SenderID': {\n                DataType: \"String\",\n                StringValue: sender\n            }\n        }\n    }).promise()\n        .then(data => {\n        console.log(\"send message to\", receiver);\n        callback(null, \"Successfully sent\");\n})\n.catch(err => {\t\nconsole.log(\"Sending failed\", err);\ncallback(err);}\n);\n",
+        "code": "let AWS = require('aws-sdk');\nconst sns = new AWS.SNS();\n\nexports.handler = function (event, context, callback) {\n\n    let receiver = event['receiver'];\n    let sender = event['sender'];\n    let message = event['message'];\n\n    console.log(\"Sending message\", message, \"to receiver\", receiver);\n\n    sns.publish({\n        Message: message,\n        PhoneNumber: receiver,\n        MessageAttributes: {\n            'AWS.SNS.SMS.SMSType': {\n                DataType: \"String\",\n                StringValue: \"Transactional\"\n            },\n            'AWS.SNS.SMS.SenderID': {\n                DataType: \"String\",\n                StringValue: sender\n            }\n        }\n    }).promise()\n        .then(data => {\n            console.log(\"send message to\", receiver);\n            callback(null, \"Successfully sent\");\n        })\n        .catch(err => {\n            console.log(\"Sending failed\", err);\n            callback(err)\n        });   \n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -37,12 +37,12 @@
           }
         ],
         "testCases": {
-          "38fecb1f-a803-4521-b1ac-869be2c2ba02": {
-            "id": "38fecb1f-a803-4521-b1ac-869be2c2ba02",
+          "993d49af-9f15-4b4f-9ab3-8ec3efe6500e": {
+            "id": "993d49af-9f15-4b4f-9ab3-8ec3efe6500e",
             "name": "Test event",
             "functionId": "d949aa17-e609-4a9d-ad01-afc8a7e06060",
-            "event": "{\r\n    \"body\": \"eyJ0ZXN0IjoiYm9keSJ9\",\r\n    \"resource\": \"/{proxy+}\",\r\n    \"path\": \"/path/to/resource\",\r\n    \"httpMethod\": \"POST\",\r\n    \"isBase64Encoded\": true,\r\n    \"queryStringParameters\": {\r\n        \"foo\": \"bar\"\r\n    },\r\n    \"pathParameters\": {\r\n        \"proxy\": \"/path/to/resource\"\r\n    },\r\n    \"stageVariables\": {\r\n        \"baz\": \"qux\"\r\n    },\r\n    \"headers\": {\r\n        \"Accept\": \"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\",\r\n        \"Accept-Encoding\": \"gzip, deflate, sdch\",\r\n        \"Accept-Language\": \"en-US,en;q=0.8\",\r\n        \"Cache-Control\": \"max-age=0\",\r\n        \"CloudFront-Forwarded-Proto\": \"https\",\r\n        \"CloudFront-Is-Desktop-Viewer\": \"true\",\r\n        \"CloudFront-Is-Mobile-Viewer\": \"false\",\r\n        \"CloudFront-Is-SmartTV-Viewer\": \"false\",\r\n        \"CloudFront-Is-Tablet-Viewer\": \"false\",\r\n        \"CloudFront-Viewer-Country\": \"US\",\r\n        \"Host\": \"1234567890.execute-api.us-east-1.amazonaws.com\",\r\n        \"Upgrade-Insecure-Requests\": \"1\",\r\n        \"User-Agent\": \"Custom User Agent String\",\r\n        \"Via\": \"1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)\",\r\n        \"X-Amz-Cf-Id\": \"cDehVQoZnx43VYQb9j2-nvCh-9z396Uhbp027Y2JvkCPNLmGJHqlaA==\",\r\n        \"X-Forwarded-For\": \"127.0.0.1, 127.0.0.2\",\r\n        \"X-Forwarded-Port\": \"443\",\r\n        \"X-Forwarded-Proto\": \"https\"\r\n    },\r\n    \"requestContext\": {\r\n        \"accountId\": \"123456789012\",\r\n        \"resourceId\": \"123456\",\r\n        \"stage\": \"prod\",\r\n        \"requestId\": \"c6af9ac6-7b61-11e6-9a41-93e8deadbeef\",\r\n        \"requestTime\": \"09/Apr/2015:12:34:56 +0000\",\r\n        \"requestTimeEpoch\": 1428582896000,\r\n        \"identity\": {\r\n            \"cognitoIdentityPoolId\": null,\r\n            \"accountId\": null,\r\n            \"cognitoIdentityId\": null,\r\n            \"caller\": null,\r\n            \"accessKey\": null,\r\n            \"sourceIp\": \"127.0.0.1\",\r\n            \"cognitoAuthenticationType\": null,\r\n            \"cognitoAuthenticationProvider\": null,\r\n            \"userArn\": null,\r\n            \"userAgent\": \"Custom User Agent String\",\r\n            \"user\": null\r\n        },\r\n        \"path\": \"/prod/path/to/resource\",\r\n        \"resourcePath\": \"/{proxy+}\",\r\n        \"httpMethod\": \"POST\",\r\n        \"apiId\": \"1234567890\",\r\n        \"protocol\": \"HTTP/1.1\"\r\n    }\r\n}",
-            "eventTemplate": "apigateway-aws-proxy"
+            "event": "{\r\n    \"receiver\": \"+13238635193\",\r\n    \"sender\": \"cyanONLINE\",\r\n    \"message\": \"This is a test...\"\r\n}",
+            "eventTemplate": "hello-world"
           }
         }
       }
@@ -53,6 +53,16 @@
     ],
     "currentFileId": "d949aa17-e609-4a9d-ad01-afc8a7e06060",
     "resources": {
+      "snsDirectSMSResource": {
+        "name": "snsDirectSMSResource",
+        "type": "SNS",
+        "config": {
+          "snsType": 1,
+          "numbers": [
+            "@{receiver}"
+          ]
+        }
+      },
       "apigusEast1SMSGatewaysendSMSpost": {
         "name": "apigusEast1SMSGatewaysendSMSpost",
         "type": "API_GATEWAY",
@@ -71,16 +81,6 @@
           "stageName": "prod",
           "mode": 0
         }
-      },
-      "snsDirectSMSResource": {
-        "name": "snsDirectSMSResource",
-        "type": "SNS",
-        "config": {
-          "snsType": 1,
-          "numbers": [
-            "@{receiver}"
-          ]
-        }
       }
     },
     "customTemplate": {
@@ -98,15 +98,7 @@
       }
     ],
     "packageJSON": {
-      "dependencies": {
-        "aws-sdk": {
-          "name": "aws-sdk",
-          "language": "javascript",
-          "version": "2.176.0",
-          "dev": true,
-          "notRemovable": false
-        }
-      }
+      "dependencies": {}
     }
   },
   "PROJECT_META": {
@@ -116,7 +108,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1575992212947
+    "lastSave": 1575993564349
   },
   "VCS_STATE": {
     "provider": "GitHub",
