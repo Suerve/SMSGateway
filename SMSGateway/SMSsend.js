@@ -8,18 +8,18 @@ exports.handler = function (event, context, callback) {
     let message = event['message'];
 
     console.log("Sending message", message, "to receiver", receiver);
- 
+
     sns.publish({
         Message: message,
         PhoneNumber: receiver,
         MessageAttributes: {
             'AWS.SNS.SMS.SMSType': {
                 DataType: "String",
-                StringValue: "Transactional"
+                StringValue: "Promotional"
             },
             'AWS.SNS.SMS.SenderID': {
                 DataType: "String",
-                StringValue: CyanOnline
+                StringValue: sender
             }
         }
     }).promise()
