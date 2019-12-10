@@ -1,0 +1,128 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "b130d318-7dbf-4aae-8559-439a81462d10": {
+        "id": "b130d318-7dbf-4aae-8559-439a81462d10",
+        "parent": null,
+        "name": "SMSGateway",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "d949aa17-e609-4a9d-ad01-afc8a7e06060"
+        ],
+        "isRemovable": false,
+        "filePath": "SMSGateway"
+      },
+      "d949aa17-e609-4a9d-ad01-afc8a7e06060": {
+        "id": "d949aa17-e609-4a9d-ad01-afc8a7e06060",
+        "parent": "b130d318-7dbf-4aae-8559-439a81462d10",
+        "name": "SMSsend.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "SMSGateway/SMSsend.js",
+        "code": "let AWS = require('aws-sdk');\nconst sns = new AWS.SNS();\n\nexports.handler = function (event, context, callback) {\n\n    let receiver = event['receiver'];\n    let sender = event['sender'];\n    let message = event['message'];\n\n    console.log(\"Sending message\", message, \"to receiver\", receiver);\n \n    sns.publish({\n        Message: message,\n        PhoneNumber: receiver,\n        MessageAttributes: {\n            'AWS.SNS.SMS.SMSType': {\n                DataType: \"String\",\n                StringValue: \"Transactional\"\n            },\n            'AWS.SNS.SMS.SenderID': {\n                DataType: \"String\",\n                StringValue: CyanOnline\n            }\n        }\n    }).promise()\n        .then(data => {\n            // your code goes here\n        })\n        .catch(err => {\n            // error handling goes here\n        });\n\n    callback(null, { \"message\": 'Successfully executed' });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [
+          {
+            "resourceName": "apigusEast1SMSGatewaysendSMSpost",
+            "config": {}
+          }
+        ],
+        "testCases": {
+          "38fecb1f-a803-4521-b1ac-869be2c2ba02": {
+            "id": "38fecb1f-a803-4521-b1ac-869be2c2ba02",
+            "name": "Test event",
+            "functionId": "d949aa17-e609-4a9d-ad01-afc8a7e06060",
+            "event": "{\r\n    \"body\": \"eyJ0ZXN0IjoiYm9keSJ9\",\r\n    \"resource\": \"/{proxy+}\",\r\n    \"path\": \"/path/to/resource\",\r\n    \"httpMethod\": \"POST\",\r\n    \"isBase64Encoded\": true,\r\n    \"queryStringParameters\": {\r\n        \"foo\": \"bar\"\r\n    },\r\n    \"pathParameters\": {\r\n        \"proxy\": \"/path/to/resource\"\r\n    },\r\n    \"stageVariables\": {\r\n        \"baz\": \"qux\"\r\n    },\r\n    \"headers\": {\r\n        \"Accept\": \"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\",\r\n        \"Accept-Encoding\": \"gzip, deflate, sdch\",\r\n        \"Accept-Language\": \"en-US,en;q=0.8\",\r\n        \"Cache-Control\": \"max-age=0\",\r\n        \"CloudFront-Forwarded-Proto\": \"https\",\r\n        \"CloudFront-Is-Desktop-Viewer\": \"true\",\r\n        \"CloudFront-Is-Mobile-Viewer\": \"false\",\r\n        \"CloudFront-Is-SmartTV-Viewer\": \"false\",\r\n        \"CloudFront-Is-Tablet-Viewer\": \"false\",\r\n        \"CloudFront-Viewer-Country\": \"US\",\r\n        \"Host\": \"1234567890.execute-api.us-east-1.amazonaws.com\",\r\n        \"Upgrade-Insecure-Requests\": \"1\",\r\n        \"User-Agent\": \"Custom User Agent String\",\r\n        \"Via\": \"1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)\",\r\n        \"X-Amz-Cf-Id\": \"cDehVQoZnx43VYQb9j2-nvCh-9z396Uhbp027Y2JvkCPNLmGJHqlaA==\",\r\n        \"X-Forwarded-For\": \"127.0.0.1, 127.0.0.2\",\r\n        \"X-Forwarded-Port\": \"443\",\r\n        \"X-Forwarded-Proto\": \"https\"\r\n    },\r\n    \"requestContext\": {\r\n        \"accountId\": \"123456789012\",\r\n        \"resourceId\": \"123456\",\r\n        \"stage\": \"prod\",\r\n        \"requestId\": \"c6af9ac6-7b61-11e6-9a41-93e8deadbeef\",\r\n        \"requestTime\": \"09/Apr/2015:12:34:56 +0000\",\r\n        \"requestTimeEpoch\": 1428582896000,\r\n        \"identity\": {\r\n            \"cognitoIdentityPoolId\": null,\r\n            \"accountId\": null,\r\n            \"cognitoIdentityId\": null,\r\n            \"caller\": null,\r\n            \"accessKey\": null,\r\n            \"sourceIp\": \"127.0.0.1\",\r\n            \"cognitoAuthenticationType\": null,\r\n            \"cognitoAuthenticationProvider\": null,\r\n            \"userArn\": null,\r\n            \"userAgent\": \"Custom User Agent String\",\r\n            \"user\": null\r\n        },\r\n        \"path\": \"/prod/path/to/resource\",\r\n        \"resourcePath\": \"/{proxy+}\",\r\n        \"httpMethod\": \"POST\",\r\n        \"apiId\": \"1234567890\",\r\n        \"protocol\": \"HTTP/1.1\"\r\n    }\r\n}",
+            "eventTemplate": "apigateway-aws-proxy"
+          }
+        }
+      }
+    },
+    "rootNode": "b130d318-7dbf-4aae-8559-439a81462d10",
+    "openFiles": [
+      "d949aa17-e609-4a9d-ad01-afc8a7e06060"
+    ],
+    "currentFileId": "d949aa17-e609-4a9d-ad01-afc8a7e06060",
+    "resources": {
+      "apigusEast1SMSGatewaysendSMSpost": {
+        "name": "apigusEast1SMSGatewaysendSMSpost",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiMode": 0,
+          "apiName": "SMSGateway",
+          "endpointType": "EDGE",
+          "resourceMode": 0,
+          "resourceName": "sendSMS",
+          "resourcePath": "/sendSMS",
+          "restMethod": "POST",
+          "proxyIntegration": false,
+          "enableCORS": false,
+          "stageMode": 0,
+          "stageName": "prod",
+          "mode": 0
+        }
+      },
+      "snsDirectSMSResource": {
+        "name": "snsDirectSMSResource",
+        "type": "SNS",
+        "config": {
+          "snsType": 1,
+          "numbers": [
+            "@{receiver}"
+          ]
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": null
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "language": "javascript",
+          "version": "2.176.0",
+          "dev": true,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "SMSGateway",
+    "projectDescription": "API Gateway for SMS Messages",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1575990435495
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "SMSGateway",
+      "url": "https://github.com/Suerve/SMSGateway"
+    }
+  }
+}
