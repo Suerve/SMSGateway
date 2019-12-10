@@ -24,11 +24,10 @@ exports.handler = function (event, context, callback) {
         }
     }).promise()
         .then(data => {
-            // your code goes here
-        })
-        .catch(err => {
-            // error handling goes here
-        });
-
-    callback(null, { "message": 'Successfully executed' });
-}
+        console.log("send message to", receiver);
+        callback(null, "Successfully sent");
+})
+.catch(err => {	
+console.log("Sending failed", err);
+callback(err);}
+);
