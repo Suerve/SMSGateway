@@ -41,7 +41,7 @@
             "id": "993d49af-9f15-4b4f-9ab3-8ec3efe6500e",
             "name": "Test event",
             "functionId": "d949aa17-e609-4a9d-ad01-afc8a7e06060",
-            "event": "{\r\n    \"receiver\": \"+13238635193\",\r\n    \"sender\": \"cyanONLINE\",\r\n    \"message\": \"This is a test...\"\r\n}",
+            "event": "{\r\n    \"receiver\": \"+13238635193\",\r\n    \"sender\": \"suerve\",\r\n    \"message\": \"this work?\"\r\n}",
             "eventTemplate": "hello-world"
           }
         }
@@ -108,7 +108,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1576222618583
+    "lastSave": 1579083475772
   },
   "VCS_STATE": {
     "provider": "GitHub",
